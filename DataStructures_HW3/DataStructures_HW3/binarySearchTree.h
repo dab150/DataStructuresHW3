@@ -19,12 +19,16 @@ class bst
 
         void insert(int key);
         node *search(int key);
-        void destroy_tree();
+        void destroyTree();
+		void sort();
+		void deleteNode(int deleteValue);
 
     private:
-        void destroy_tree(node *leaf);
+        void destroyTree(node *leaf);
         void insert(int key, node *leaf);
         node *search(int key, node *leaf);
+		void sort(node * leaf);
+		void deleteNode(node *&leaf);
         
         node *root;
 };

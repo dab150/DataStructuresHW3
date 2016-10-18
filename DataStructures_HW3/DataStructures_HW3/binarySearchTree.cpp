@@ -68,17 +68,72 @@ node *bst::search(int searchValue, node *leaf)
 	}		
 }
 
-void bst::destroy_tree(node *leaf)
+void bst::destroyTree(node *leaf)
 {
 	if (leaf != NULL)
 	{
-		destroy_tree(leaf->left);
-		destroy_tree(leaf->right);
+		destroyTree(leaf->left);
+		destroyTree(leaf->right);
 		delete leaf;
 		cout << "\nThe tree has been destroyed!\n";
 	}
 }
 
+void bst::sort(node *leaf)
+{
+	if (leaf != NULL)
+	{
+		sort(leaf->right);
+		cout << leaf->value << "\n";
+		sort(leaf->left);	
+	}
+}
+
+void bst::deleteNode(node *&leaf)
+{
+	node *current, *trailing, *temp;
+	if (leaf == NULL) 
+		cout << "Can not remove from empty tree \n";
+	else if (leaf->left == NULL && leaf->right == NULL) 
+	{
+		//both children are empty
+		temp = leaf;
+		leaf = NULL;
+		delete temp;
+	}
+	else if (leaf->left == NULL) 
+	{
+		//left child is empty
+		temp = leaf;
+		leaf = leaf->right;
+		delete temp;
+	}
+	else if (leaf->right == NULL) 
+	{
+		//right child is empty
+		temp = leaf;
+		leaf = leaf->left;
+		delete temp;
+	}
+
+	else 
+	{
+		//both children have items
+		current = leaf->left;
+		trailing = NULL;
+		while (current->right != NULL)
+		{
+			trailing = current;
+			current = current->right;
+		}
+		leaf->value = current->value;
+		if (trailing == NULL)
+			leaf->left = current->left;
+		else
+			trailing->right = current->left;
+		delete current;
+	}
+}
 
 //public functions
 bst::bst()
@@ -89,7 +144,7 @@ bst::bst()
 
 bst::~bst()
 {
-	destroy_tree();
+	destroyTree();
 }
 
 void bst::insert(int insertedValue) //this will be used for inserting nodes after the root
@@ -113,7 +168,54 @@ node *bst::search(int searchValue)
 	return search(searchValue, root);
 }
 
-void bst::destroy_tree()
+void bst::destroyTree()
 {
-	destroy_tree(root);
+	destroyTree(root);
+}
+
+void bst::sort()
+{
+	sort(root);
+}
+
+//void bst::deleteNode(int deleteValue)
+//{
+	//deleteNode(deleteValue, root);
+//}
+
+void bst::deleteNode(int deleteValue)
+{
+	node* current, *trailCurrent = NULL;
+	bool found = false;
+	if (root == NULL)
+		cout << "The tree does not exist!";
+	else 
+	{
+		current = root;
+		while (current != NULL && !found) 
+		{
+			if (current->value == deleteValue)
+				found = true;
+			else 
+			{
+				trailCurrent = current;
+				if (deleteValue < current->value)
+					current = current->left;
+				else
+					current = current->right;
+			}
+		}
+		
+		if (current == NULL)
+			cout << "Node to be deleted is not in tree \n";
+		else if (found)
+		{
+			if (current == root)
+				deleteNode(root);
+			else if (deleteValue < trailCurrent->value)
+				deleteNode(trailCurrent->left);
+			else 
+				deleteNode(trailCurrent->right);
+		}
+	}
 }

@@ -35,6 +35,7 @@ void printMenu()
 	cout << "1. Insert Node \n";
 	cout << "2. Search Node \n";
 	cout << "3. Delete Node \n";
+	cout << "4. Sort in Ascending Order \n";
 
 	cout << " \n \nEnter the corresponding number for the command you would like to perform:";
 	cin >> command;
@@ -54,6 +55,10 @@ void printMenu()
 	case 3:
 		cout << "Enter the number you would like to delete: ";
 		cin >> enteredValue;
+		tree.deleteNode(enteredValue);
+		break;
+	case 4:
+		tree.sort();
 		break;
 	}
 
