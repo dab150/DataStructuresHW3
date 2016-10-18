@@ -11,6 +11,22 @@ public:
 	node *right;
 };
 
-//function prototypes
-void insert(int insertedValue, node *root);
-node *search(int searchValue, node *root);
+class bst
+{
+    public:
+        bst();
+        ~bst();
+
+        void insert(int key);
+        node *search(int key);
+        void destroy_tree();
+
+    private:
+        void destroy_tree(node *leaf);
+        void insert(int key, node *leaf);
+        node *search(int key, node *leaf);
+        
+        node *root;
+};
+
+
